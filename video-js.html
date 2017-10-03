@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Video.js | HTML5 Video Player</title>
+    <link href="http://vjs.zencdn.net/5.0.2/video-js.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://vjs.zencdn.net/ie8/1.1.0/videojs-ie8.min.js"></script>
+    <script src="http://vjs.zencdn.net/5.0.2/video.js"></script>
+    <style>
+        .video-section {width:80%; height: 500px; margin:0 auto; background-color: #000; overflow: hidden;}
+                .main-video {float: left; width: 75%; box-sizing: border-box; height: 100%; overflow: hidden; }
+                .main-video .video-js {width: 100%; height: 100%;}
+                .video-series {float: right; width: 25%; height: 100%; box-sizing: border-box; overflow: hidden; }
+                .video-series ul {width: 100%; margin: 0 auto; padding:0px; box-sizing: border-box; height: 100%; overflow-x: hidden; overflow-y: auto;}
+                .video-series ul li {display: block; width: 100%; height: 100px; margin: 0 auto; border: 1px solid #000; padding:5px 10px; box-sizing: border-box;}
+                .video-series li a {display: block; height: 100%; width: 100%;}
+                .video-series li a img {width: 100%; height: 100%; display: block;}
+
+                /* customize */
+                .video-js .vjs-big-play-button {display:none;}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="video-section">
+        <div class="main-video">
+      <video id="example_video_1" class="video-js vjs-default-skin" controls autoplay preload="none" data-setup="{}">
+        <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+        <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
+        <source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
+        <track kind="captions" src="../shared/example-captions.vtt" srclang="en" label="English"></track>
+        <!-- Tracks need an ending tag thanks to IE9 -->
+        <track kind="subtitles" src="../shared/example-captions.vtt" srclang="en" label="English"></track>
+        <!-- Tracks need an ending tag thanks to IE9 -->
+        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+      </video>
+  </div>
+
+
+
+  <div class="video-series">
+                    <ul>
+                        <li data-video="images/demovideo.mp4"><a href="javascript:void(0);"><img src="images/poster1.jpg" alt="image"></a></li>
+                        <li data-video="images/demovideo2.mp4" ><a href="javascript:void(0);"><img src="images/poster2.jpg" alt="image"></a></li>
+                        <li data-video="images/demovideo3.mp4" ><a href="javascript:void(0);"><img src="images/poster3.jpg" alt="image"></a></li>
+                        <li data-video="images/demovideo4.mp4" ><a href="javascript:void(0);"><img src="images/poster4.jpg" alt="image"></a></li>
+                        <li data-video="images/demovideo5.mp4" ><a href="javascript:void(0);"><img src="images/poster5.jpg" alt="image"></a></li>
+                        <li data-video="images/demovideo4.mp4" ><a href="javascript:void(0);"><img src="images/poster3.jpg" alt="image"></a></li>
+                        <li data-video="images/demovideo3.mp4" ><a href="javascript:void(0);"><img src="images/poster4.jpg" alt="image"></a></li>
+                        <li data-video="images/demovideo5.mp4" ><a href="javascript:void(0);"><img src="images/poster5.jpg" alt="image"></a></li>
+                        <li data-video="images/demovideo.mp4" ><a href="javascript:void(0);"><img src="images/poster1.jpg" alt="image"></a></li>
+                        <li data-video="images/demovideo2.mp4" ><a href="javascript:void(0);"><img src="images/poster2.jpg" alt="image"></a></li>
+                    </ul>
+                </div>
+
+  </div>
+
+<script>
+                (function() {
+                    $(document).on("click", ".video-series ul li", function() {
+                        var currentVideoSrc = $(this).data("video");
+                        $(".main-video").find(".vjs-tech").attr("src", currentVideoSrc);
+                    });
+                })(jQuery);
+            </script>
+            <script>
+                (function() {
+
+                    // for auto play videos one after one here
+                        var videoSource = [];
+                        $(".video-series ul li").each(function() {
+                                videoSource.push($(this).data('video'));
+                        });
+                        var videoCount = videoSource.length;
+                        var index = 0;
+                        var next = function(){
+                            index ++;
+                            return index > videoCount ? 0 : index;
+                        }
+                        document.getElementById("example_video_1_html5_api").setAttribute("src", videoSource[0]);
+
+                        function videoPlay(videoNum) {
+                            console.log(videoSource[videoNum], videoNum, index)
+                            document.getElementById("example_video_1_html5_api").setAttribute("src", videoSource[videoNum]);
+                            document.getElementById("example_video_1_html5_api").play();
+                        }
+                        document.getElementById("example_video_1_html5_api").addEventListener('ended', myHandler);
+                        function myHandler() {         
+                            var i = next()
+                            videoPlay(i);
+                        }
+                        videoPlay(0);        
+    
+                })(jQuery);
+            </script>
+
+</body>
+
+</html>
